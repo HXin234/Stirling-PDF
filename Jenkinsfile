@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        JAVA_HOME = '/opt/jdk-25'
+        PATH = "$JAVA_HOME/bin:$PATH"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,15 +34,11 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Cleaning up workspace'
-            deleteDir()
-        }
         success {
-            echo 'Build succeeded!!!'
+            echo 'CI pipeline succeeded!'
         }
         failure {
-            echo 'Build failed!'
+            echo 'Build failed, please check the logs.'
         }
     }
 }
