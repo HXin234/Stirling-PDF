@@ -27,7 +27,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t stirling-pdf:latest .'
+                bat 'docker-compose up -d --build'
+                bat 'docker-compose ps'
             }
         }
     }
