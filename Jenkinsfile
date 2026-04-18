@@ -1,20 +1,21 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'JDK-25'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                deleteDir()
-                git branch: 'v0.25.0', url: 'https://github.com/Stirling-Tools/Stirling-PDF.git'
-                echo 'Successfully checked out Stirling-PDF v0.25.0'
+                echo 'Code checkout successful'
             }
         }
 
         stage('Build & Test') {
             steps {
-                sh 'java -version'
-                sh 'chmod +x gradlew'
-                sh './gradlew build'
+                bat 'java -version'
+                bat 'gradlew.bat build'
             }
         }
 
@@ -26,7 +27,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t stirling-pdf:ci-build .'
+                bat 'docker build -t stirling-pdf:latest .'
             }
         }
     }
