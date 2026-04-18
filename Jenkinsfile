@@ -1,20 +1,18 @@
 pipeline {
     agent any
 
-    environment {
-        JAVA_HOME = '/opt/jdk-25'
-        PATH = "$JAVA_HOME/bin:$PATH"
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                echo 'Code checkout successful'
+                deleteDir()
+                git branch: 'v0.25.0', url: 'https://github.com/Stirling-Tools/Stirling-PDF.git'
+                echo 'Successfully checked out Stirling-PDF v0.25.0'
             }
         }
 
         stage('Build & Test') {
             steps {
+                sh 'java -version'
                 sh 'chmod +x gradlew'
                 sh './gradlew build'
             }
@@ -28,7 +26,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t stirling-pdf:latest .'
+                sh 'docker build -t stirling-pdf:ci-build .'
             }
         }
     }
