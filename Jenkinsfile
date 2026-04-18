@@ -4,10 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Manual clone with increased buffer
-                sh 'rm -rf ./*'
-                sh 'git config --global http.postBuffer 524288000'
-                sh 'git clone --depth 1 https://github.com/HXin234/Stirling-PDF.git .'
                 echo 'Code checkout successful'
             }
         }
@@ -33,11 +29,15 @@ pipeline {
     }
 
     post {
+        always {
+            echo 'Cleaning up workspace'
+            deleteDir()
+        }
         success {
-            echo 'CI pipeline succeeded!'
+            echo 'Build succeeded!!!'
         }
         failure {
-            echo 'Build failed, please check the logs.'
+            echo 'Build failed!'
         }
     }
 }
