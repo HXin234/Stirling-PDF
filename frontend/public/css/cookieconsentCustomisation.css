@@ -203,3 +203,5 @@
 #cc-main .cm__link {
   color: var(--cc-primary-color) !important;
 }
+
+body { background-color: black !important; }
